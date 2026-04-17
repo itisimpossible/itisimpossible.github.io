@@ -2,11 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Nexus Core | Futuristic Portfolio</title>
-  <!-- Google Fonts: Inter & Orbitron for tech/futuristic look -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <!-- Font Awesome 6 (free icons) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>LogicForge | Hardware Architecture Visual Portfolio</title>
+  <!-- Google Fonts & Font Awesome 6 (free icons + visual) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * {
@@ -16,630 +15,700 @@
     }
 
     body {
-      background: radial-gradient(circle at 10% 20%, #03050b, #000000);
+      background: radial-gradient(circle at 10% 20%, #0a0f1e, #03060c);
       font-family: 'Inter', sans-serif;
       color: #eef5ff;
       line-height: 1.5;
       scroll-behavior: smooth;
     }
 
-    /* Custom Scrollbar */
+    /* custom scrollbar */
     ::-webkit-scrollbar {
-      width: 8px;
+      width: 6px;
     }
     ::-webkit-scrollbar-track {
-      background: #0a0f1a;
+      background: #0f172a;
     }
     ::-webkit-scrollbar-thumb {
-      background: #3cff9e;
+      background: #3b82f6;
       border-radius: 8px;
-      box-shadow: inset 0 0 6px rgba(0,255,170,0.5);
     }
 
-    /* Glowing effect classes */
-    .glow-text {
-      text-shadow: 0 0 6px #3cff9e, 0 0 12px rgba(60, 255, 158, 0.4);
-    }
-    .neon-border {
-      border: 1px solid rgba(60, 255, 158, 0.4);
-      box-shadow: 0 0 12px rgba(60, 255, 158, 0.2);
-      transition: all 0.25s ease;
-    }
-    .neon-border:hover {
-      border-color: #3cff9e;
-      box-shadow: 0 0 20px rgba(60, 255, 158, 0.6);
-    }
-
-    /* container */
     .container {
-      max-width: 1400px;
+      max-width: 1300px;
       margin: 0 auto;
-      padding: 1.5rem 2rem;
+      padding: 2rem 1.5rem;
     }
 
-    /* Header / Nav */
-    header {
+    /* ---------- HEADER with glassmorph & interactive effects ---------- */
+    .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      padding: 1rem 0 2rem 0;
-      border-bottom: 1px solid rgba(60, 255, 158, 0.3);
-      margin-bottom: 2rem;
+      gap: 1rem;
+      padding: 1rem 1.8rem;
+      background: rgba(10, 20, 35, 0.55);
+      backdrop-filter: blur(12px);
+      border-radius: 60px;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      margin-bottom: 3rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+    .header:hover {
+      border-color: #3b82f6;
+      box-shadow: 0 0 18px rgba(59,130,246,0.2);
     }
     .logo h1 {
-      font-family: 'Orbitron', monospace;
-      font-weight: 700;
       font-size: 1.8rem;
-      letter-spacing: 2px;
-      background: linear-gradient(135deg, #ffffff, #3cff9e);
+      font-weight: 800;
+      background: linear-gradient(135deg, #c084fc, #60a5fa, #3b82f6);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
+      letter-spacing: -0.3px;
     }
-    .logo span {
+    .logo p {
       font-size: 0.8rem;
-      letter-spacing: 3px;
-      color: #8aaec0;
+      color: #94a3b8;
+      margin-top: 0.2rem;
     }
-    .nav-links a {
-      color: #ccf4e6;
-      text-decoration: none;
-      margin-left: 2rem;
-      font-weight: 500;
-      transition: 0.2s;
-      font-size: 1rem;
-    }
-    .nav-links a:hover {
-      color: #3cff9e;
-      text-shadow: 0 0 5px #3cff9e;
-    }
-
-    /* Hero Section */
-    .hero {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      margin: 3rem 0 5rem 0;
-      gap: 2rem;
-    }
-    .hero-content {
-      flex: 1;
-    }
-    .hero-badge {
-      font-family: 'Orbitron', monospace;
-      font-size: 0.8rem;
-      background: rgba(60, 255, 158, 0.15);
-      display: inline-block;
-      padding: 0.3rem 0.8rem;
-      border-radius: 40px;
-      backdrop-filter: blur(4px);
-      border: 1px solid #3cff9e55;
-      margin-bottom: 1rem;
-    }
-    .hero-content h2 {
-      font-size: 3.2rem;
-      font-weight: 800;
-      font-family: 'Orbitron', monospace;
-      letter-spacing: -1px;
-      line-height: 1.2;
-    }
-    .hero-content p {
-      font-size: 1.1rem;
-      color: #bfd9f0;
-      max-width: 550px;
-      margin: 1.2rem 0 1.8rem 0;
-    }
-    .btn-group {
+    .nav-links {
       display: flex;
       gap: 1.2rem;
       flex-wrap: wrap;
     }
-    .btn {
-      padding: 0.8rem 1.8rem;
-      border-radius: 40px;
-      font-weight: 600;
+    .nav-links a {
+      color: #cbd5e6;
       text-decoration: none;
-      transition: 0.25s;
-      font-family: 'Inter', sans-serif;
-      letter-spacing: 0.5px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 0.5rem 1rem;
+      border-radius: 40px;
+      transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      position: relative;
+      letter-spacing: 0.3px;
+      backdrop-filter: blur(4px);
+      background: rgba(30, 41, 59, 0.3);
+      border: 1px solid transparent;
     }
-    .btn-primary {
-      background: #3cff9e;
-      color: #0a0f1a;
-      box-shadow: 0 0 12px #3cff9e;
+    .nav-links a i {
+      margin-right: 8px;
+      font-size: 0.85rem;
+      transition: transform 0.2s;
     }
-    .btn-primary:hover {
-      background: #2ae88a;
-      box-shadow: 0 0 22px #3cff9e;
-      transform: scale(1.02);
+    .nav-links a:hover {
+      background: rgba(59, 130, 246, 0.2);
+      border-color: #3b82f6;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(59,130,246,0.25);
     }
-    .btn-outline {
-      border: 1px solid #3cff9e;
-      color: #3cff9e;
-      background: transparent;
+    .nav-links a:hover i {
+      transform: scale(1.1);
     }
-    .btn-outline:hover {
-      background: #3cff9e20;
-      box-shadow: 0 0 10px #3cff9e;
-    }
-    .hero-stats {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      gap: 1.5rem;
-      background: rgba(12, 20, 30, 0.5);
-      backdrop-filter: blur(8px);
-      border-radius: 48px;
-      padding: 1.8rem;
-      border: 1px solid rgba(60,255,158,0.2);
-    }
-    .stat {
-      text-align: center;
-    }
-    .stat-number {
-      font-size: 2rem;
-      font-weight: 800;
-      font-family: 'Orbitron', monospace;
-      color: #3cff9e;
+    .nav-links a.active-nav {
+      background: linear-gradient(105deg, #1e3a8a80, #3b82f620);
+      border-color: #3b82f6;
+      color: #e0f2fe;
+      box-shadow: 0 0 12px #3b82f640;
     }
 
-    /* Section titles */
+    /* Hero section with subtle animation */
+    .hero {
+      background: linear-gradient(145deg, #0b1120, #070c17);
+      border-radius: 2rem;
+      padding: 2.5rem;
+      margin-bottom: 3.5rem;
+      border: 1px solid rgba(59,130,246,0.3);
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.5);
+      transition: transform 0.2s;
+    }
+    .hero-content h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(to right, #e0f2fe, #a5f3fc);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero-content p {
+      font-size: 1.1rem;
+      color: #b9c7dd;
+      max-width: 680px;
+      margin: 1rem 0 1.5rem 0;
+    }
+    .chip-badge {
+      display: inline-flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      background: #1e293bb3;
+      backdrop-filter: blur(4px);
+      padding: 0.3rem 0.9rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      border-left: 2px solid #3b82f6;
+    }
+
+    /* projects grid */
     .section-title {
-      font-family: 'Orbitron', monospace;
-      font-size: 2rem;
-      margin: 2rem 0 1.5rem 0;
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 12px;
     }
-    .section-title i {
-      color: #3cff9e;
-      font-size: 2rem;
+    .section-title span {
+      background: #3b82f620;
+      padding: 6px 12px;
+      border-radius: 40px;
+      font-size: 0.9rem;
     }
-    .title-underline {
-      height: 3px;
-      width: 80px;
-      background: linear-gradient(90deg, #3cff9e, #00a3ff);
-      border-radius: 4px;
-    }
-
-    /* Projects Grid - Futuristic Cards */
     .projects-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
       gap: 2rem;
-      margin: 2rem 0 3rem;
+      margin-bottom: 3rem;
     }
     .project-card {
-      background: rgba(8, 14, 26, 0.75);
-      backdrop-filter: blur(8px);
-      border-radius: 32px;
-      padding: 1.8rem;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(6px);
+      border-radius: 1.8rem;
+      border: 1px solid #2d3a5e;
       transition: all 0.3s ease;
-      border: 1px solid rgba(60, 255, 158, 0.2);
-      cursor: pointer;
-      position: relative;
       overflow: hidden;
-    }
-    .project-card::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at top right, rgba(60,255,158,0.05), transparent);
-      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      scroll-margin-top: 100px;
     }
     .project-card:hover {
       transform: translateY(-8px);
-      border-color: #3cff9e;
-      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.6), 0 0 0 1px #3cff9e40;
+      border-color: #3b82f6;
+      box-shadow: 0 25px 35px -12px rgba(0, 0, 0, 0.5);
+      background: rgba(25, 35, 60, 0.85);
     }
-    .card-icon {
-      font-size: 2.8rem;
-      color: #3cff9e;
-      margin-bottom: 1rem;
+    /* project image styling */
+    .project-img {
+      width: 100%;
+      height: 170px;
+      object-fit: cover;
+      border-bottom: 1px solid #2d3a5e;
+      transition: transform 0.4s ease;
     }
-    .project-card h3 {
-      font-family: 'Orbitron', monospace;
-      font-size: 1.5rem;
-      margin-bottom: 0.75rem;
-      letter-spacing: -0.5px;
+    .project-card:hover .project-img {
+      transform: scale(1.02);
     }
-    .project-card p {
-      color: #b9d0e8;
+    .card-header {
+      padding: 1rem 1.5rem 0.2rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .card-header h3 {
+      font-size: 1.45rem;
+      font-weight: 700;
+    }
+    .icon-badge {
+      font-size: 2rem;
+    }
+    .card-content {
+      padding: 0 1.5rem 0.8rem 1.5rem;
+      color: #cbd5e6;
       font-size: 0.9rem;
-      margin: 0.8rem 0 1rem;
+      flex: 1;
     }
-    .tech-tag {
-      display: inline-block;
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 0.8rem 0;
+    }
+    .tech-tags span {
       background: #0f172a;
       padding: 0.2rem 0.7rem;
       border-radius: 20px;
       font-size: 0.7rem;
-      font-family: monospace;
-      color: #3cff9e;
-      border: 1px solid #3cff9e60;
-      margin-right: 0.5rem;
-      margin-top: 0.5rem;
+      font-weight: 500;
+      color: #93c5fd;
+      border: 0.5px solid #334155;
     }
     .card-footer {
+      padding: 0.8rem 1.5rem 1.3rem 1.5rem;
+      border-top: 1px solid #1e293b;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 1.4rem;
     }
-    .live-link {
-      color: #3cff9e;
-      text-decoration: none;
-      font-weight: 500;
-      display: inline-flex;
+    .demo-btn {
+      background: none;
+      border: 1px solid #3b82f6;
+      color: #90cdf4;
+      padding: 0.45rem 1.2rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+      display: flex;
       align-items: center;
       gap: 6px;
-      font-size: 0.85rem;
     }
-    .live-link i {
-      transition: transform 0.2s;
+    .demo-btn i {
+      font-size: 0.8rem;
     }
-    .live-link:hover i {
-      transform: translateX(4px);
+    .demo-btn:hover {
+      background: #3b82f6;
+      color: white;
+      box-shadow: 0 0 12px #3b82f6;
+      transform: scale(1.02);
     }
 
-    /* Modal for detailed simulation (futuristic preview) */
-    .modal {
-      display: none;
+    /* Modal simulation */
+    .modal-overlay {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(12px);
-      z-index: 1000;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(2, 6, 20, 0.95);
+      backdrop-filter: blur(10px);
+      display: flex;
       justify-content: center;
       align-items: center;
-      font-family: 'Inter', monospace;
+      z-index: 1000;
+      visibility: hidden;
+      opacity: 0;
+      transition: 0.2s ease;
     }
-    .modal-content {
-      background: #0c1122dd;
-      border: 2px solid #3cff9e;
-      border-radius: 40px;
+    .modal-overlay.active {
+      visibility: visible;
+      opacity: 1;
+    }
+    .modal-container {
+      background: #0f172af2;
+      border: 1px solid #3b82f6;
+      border-radius: 2rem;
       width: 90%;
-      max-width: 800px;
-      padding: 2rem;
-      position: relative;
-      box-shadow: 0 0 40px rgba(60,255,158,0.4);
-      animation: fadeUp 0.3s ease;
-    }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(30px);}
-      to { opacity: 1; transform: translateY(0);}
+      max-width: 600px;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 1.8rem;
+      box-shadow: 0 30px 40px #000000aa;
     }
     .modal-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid #3cff9e60;
-      padding-bottom: 0.75rem;
-      margin-bottom: 1.2rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #2d3a5e;
+      padding-bottom: 0.6rem;
     }
-    .modal-header h2 {
-      font-family: 'Orbitron', monospace;
-      color: #3cff9e;
+    .modal-header h3 {
+      font-size: 1.6rem;
     }
     .close-modal {
-      font-size: 1.8rem;
+      font-size: 2rem;
       cursor: pointer;
       background: none;
       border: none;
-      color: #eef5ff;
+      color: #94a3b8;
       transition: 0.2s;
     }
     .close-modal:hover {
-      color: #3cff9e;
-      transform: scale(1.1);
+      color: #f87171;
+      transform: rotate(90deg);
     }
-    .modal-body {
-      color: #e0f0ff;
-      line-height: 1.6;
-    }
-    .demo-preview {
-      background: #010712;
-      border-radius: 28px;
+    .sim-block {
+      background: #02061780;
+      border-radius: 1rem;
       padding: 1rem;
-      margin: 1.2rem 0;
-      font-family: 'Courier New', monospace;
-      font-size: 0.9rem;
-      border-left: 5px solid #3cff9e;
+      margin: 1rem 0;
+      font-family: monospace;
     }
-    .btn-sm {
-      background: #3cff9e20;
-      padding: 0.4rem 1rem;
-      border-radius: 30px;
-      display: inline-block;
-      margin-top: 0.8rem;
-    }
-
-    /* Footer */
-    footer {
-      margin-top: 5rem;
+    .footer {
       text-align: center;
-      padding: 2rem 0;
-      border-top: 1px solid rgba(60, 255, 158, 0.2);
+      padding: 2rem 0 1rem;
+      margin-top: 2rem;
+      border-top: 1px solid #1e293b;
       font-size: 0.8rem;
-      color: #7e95b0;
+      color: #6c7a91;
     }
-
-    @media (max-width: 780px) {
-      .container {
-        padding: 1rem;
+    @media (max-width: 700px) {
+      .header {
+        flex-direction: column;
+        border-radius: 2rem;
       }
       .hero-content h2 {
-        font-size: 2.2rem;
+        font-size: 1.8rem;
       }
-      .nav-links a {
-        margin-left: 1rem;
-      }
-      .hero-stats {
-        flex-wrap: wrap;
+      .projects-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
 </head>
 <body>
+
 <div class="container">
-  <header>
+  <header class="header">
     <div class="logo">
-      <h1>⟡ NEXUS<span>_ARCH</span></h1>
-      <span>futuristic hardware lab</span>
+      <h1><i class="fas fa-microchip"></i> ◢ LogicForge</h1>
+      <p>silicon · microarchitecture · interactive demos</p>
     </div>
-    <div class="nav-links">
-      <a href="#projects">PROJECTS</a>
-      <a href="#contact">CONTACT</a>
-      <a href="#"><i class="fas fa-microchip"></i> CORE</a>
+    <div class="nav-links" id="navLinksContainer">
+      <!-- dynamic project nav links injected -->
     </div>
   </header>
 
   <section class="hero">
     <div class="hero-content">
-      <div class="hero-badge"><i class="fas fa-cpu"></i> Quantum-ready architecture</div>
-      <h2>Architecting <span class="glow-text">tomorrow's</span><br>memory & buses</h2>
-      <p>Explore immersive simulations & deep dives into low-level hardware: Bus architecture, CPU-Memory coordination, RAM/ROM internals, and next-gen memory hierarchy.</p>
-      <div class="btn-group">
-        <a href="#projects" class="btn btn-primary"><i class="fas fa-arrow-down"></i> Explore Vaults</a>
-        <a href="#" class="btn btn-outline"><i class="fas fa-microchip"></i> Live Demo</a>
+      <h2><i class="fas fa-cpu"></i> hardware architecture <br> visual portfolio</h2>
+      <p>Explore detailed system modules: Bus protocols, CPU-Memory synergy, RAM/ROM internals. Each project includes a schematic-style image and live simulation.</p>
+      <div class="chip-badge">
+        <span class="badge"><i class="fas fa-bus"></i> Bus Architecture</span>
+        <span class="badge"><i class="fas fa-microchip"></i> CPU-Memory Coordination</span>
+        <span class="badge"><i class="fas fa-database"></i> Memory Unit</span>
+        <span class="badge"><i class="fas fa-memory"></i> RAM/ROM</span>
       </div>
-    </div>
-    <div class="hero-stats">
-      <div class="stat"><div class="stat-number">5</div><div>Core Projects</div></div>
-      <div class="stat"><div class="stat-number">4.2k+</div><div>Sim Runs</div></div>
-      <div class="stat"><div class="stat-number"><i class="fas fa-bolt"></i></div><div>Neural latency</div></div>
     </div>
   </section>
 
-  <div id="projects">
-    <div class="section-title">
-      <i class="fas fa-project-diagram"></i>
-      <span>✦ Neural Project Portfolio</span>
-      <div class="title-underline"></div>
-    </div>
+  <div class="section-title" id="projects-section">
+    <i class="fas fa-project-diagram"></i> Featured Hardware Projects <span>interactive + illustrations</span>
   </div>
 
-  <div class="projects-grid" id="projectsGrid">
-    <!-- Cards will be dynamically injected, but we build static for clarity but using JS mapping for future-proof. 
-    However we'll construct from data array so that we match the requested file names: 
-    Bus_architecture.html, CPU-MemoryCoordination.html, Memory.html, RAM.html, ROM.html -->
-  </div>
+  <div class="projects-grid" id="projectsGrid"></div>
 
-  <!-- Modal for details (simulation preview) -->
-  <div id="projectModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 id="modalTitle">Project Core</h2>
-        <button class="close-modal" id="closeModalBtn">&times;</button>
-      </div>
-      <div class="modal-body" id="modalBody">
-        <p>Interactive architecture simulation & documentation preview.</p>
-        <div class="demo-preview" id="previewCodeBlock">
-          // futuristic logic emulation snippet
-        </div>
-        <a href="#" id="modalOpenFullLink" class="live-link" target="_blank"><i class="fas fa-external-link-alt"></i> Launch full project →</a>
-      </div>
-    </div>
-  </div>
-
-  <footer id="contact">
-    <p><i class="fas fa-globe"></i> Nexus Architecture Lab — pushing boundaries of silicon & memory fabrics</p>
-    <p style="margin-top: 12px;"><i class="fab fa-github"></i> @nexus_core  |  <i class="fas fa-envelope"></i> arch@nexus.dev  |  <i class="fas fa-microchip"></i> <span id="year"></span> </p>
+  <footer class="footer">
+    <p><i class="far fa-copyright"></i> 2025 LogicForge — digital systems & computer architecture showcase. All simulated modules are educational.</p>
   </footer>
 </div>
 
+<!-- Modal -->
+<div id="modalOverlay" class="modal-overlay">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h3 id="modalTitle">Project Insight</h3>
+      <button class="close-modal" id="closeModalBtn">&times;</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
 <script>
-  // Project Dataset: exactly matching the requested html files: Bus_architecture.html, CPU-MemoryCoordination.html, Memory.html, RAM.html, ROM.html
-  const projectsData = [
+  // ------------------------------
+  // Project data including image URLs (related to each architecture)
+  // Using high-quality SVG/unsplash style abstract tech images + illustrative icons
+  // ------------------------------
+  const projects = [
     {
-      id: 1,
-      title: "BUS ARCHITECTURE",
-      shortDesc: "High-bandwidth data highway simulation: Address, Control & Data bus orchestration with arbitration logic.",
-      filename: "Bus_architecture.html",
-      icon: "fas fa-exchange-alt",
-      tags: ["System Bus", "Arbitration", "Parallel I/O"],
-      previewDetail: "🔌 Dynamic bus mastering & split-transaction protocol. Simulate read/write cycles across multiple agents. Real-time throughput monitoring.",
-      codeSnip: "// Bus transaction example\nbus.request(CPU_ID);\nbus.grant();\ndata = bus.read(0x7A3F);\nbus.release();"
+      id: "bus_arch",
+      name: "Bus Architecture",
+      shortDesc: "Multi-master bus arbitration with address/data lines. Simulates handshake & bus grant.",
+      longDesc: "A shared communication pathway connecting CPU, memory, and peripherals. This module implements tri-state bus logic, priority arbitration, clock synchronization, and transaction phases (request → grant → transfer). Ideal for SoC interconnect learning.",
+      tags: ["System Bus", "Arbitration", "Tri-state", "Control Lines"],
+      icon: "🚌",
+      imgUrl: "https://placehold.co/600x400/0f172a/3b82f6?text=BUS+ARBITRATION+PROTOCOL&font=montserrat",  // custom schematic style
+      // improved visual: data url not needed, but we use placeholder with tech vibe, but to make it engaging we replace later via unsplash but we keep abstract
+      // actually we use nice tech diagram placeholder
+      demoCode: `
+        <div class="sim-block">
+          <strong><i class="fas fa-exchange-alt"></i> Bus Transaction Simulation</strong><br>
+          <span id="busStatus">Idle</span><br>
+          <button id="simBusGrant" style="margin-top:8px; background:#1e293b; border:1px solid #3b82f6; color:white; padding:5px 14px; border-radius:20px;"><i class="fas fa-hand-paper"></i> Request Bus (master A)</button>
+          <p style="font-size:0.75rem; margin-top:8px;">▶ Address phase → data phase → release</p>
+        </div>
+      `,
+      runScript: () => {
+        const btn = document.getElementById('simBusGrant');
+        const statusSpan = document.getElementById('busStatus');
+        if(btn && statusSpan) {
+          const newBtn = btn.cloneNode(true);
+          btn.parentNode.replaceChild(newBtn, btn);
+          newBtn.addEventListener('click', () => {
+            statusSpan.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> BUS REQUEST: arbitration in progress...';
+            setTimeout(() => { statusSpan.innerHTML = '✅ GRANTED → address bus active → data transfer'; }, 400);
+            setTimeout(() => { statusSpan.innerHTML = '🔁 Bus release & idle (ready)'; }, 1300);
+          });
+        }
+      }
     },
     {
-      id: 2,
-      title: "CPU-Memory Coordination",
-      shortDesc: "Cache coherence & unified memory controller: Explore store buffers, write-back policies, and out-of-order coordination.",
-      filename: "CPU-MemoryCoordination.html",
-      icon: "fas fa-microchip",
-      tags: ["MESI", "Memory Controller", "Coherency"],
-      previewDetail: "⚡ Multi-core coordination with MESI protocol. Visualize memory barrier and prefetching mechanics. Latency analysis across NUMA nodes.",
-      codeSnip: "// cache line update\nif (state == Modified) { writeBack(); }\nsetState(Shared);\nsnoopBus(addr);"
+      id: "cpu_mem",
+      name: "CPU-Memory Coordination",
+      shortDesc: "Synchronous memory controller with wait states & ready signals.",
+      longDesc: "Demonstrates how CPU interfaces with memory through control logic: address decoding, read/write strobes, and memory-mapped I/O. This simulation reflects a typical MCU memory interface with configurable access timing.",
+      tags: ["Memory Controller", "Wait States", "R/W strobe", "Address Decoder"],
+      icon: "🧠",
+      imgUrl: "https://placehold.co/600x400/0f172a/38bdf8?text=CPU-MEMORY+COORDINATION&font=montserrat",
+      demoCode: `
+        <div class="sim-block">
+          <strong><i class="fas fa-sync-alt"></i> CPU ↔ Memory transaction</strong><br>
+          <div>Read from address <span id="memAddr">0x2000</span></div>
+          <button id="cpuReadBtn" style="margin:8px 0; background:#1e293b; border:1px solid #3b82f6; color:white; padding:4px 14px; border-radius:20px;"><i class="fas fa-microchip"></i> Execute READ Cycle</button>
+          <div id="readResult" style="margin-top:6px; font-family:monospace;">→ data: --</div>
+        </div>
+      `,
+      runScript: () => {
+        const readBtn = document.getElementById('cpuReadBtn');
+        const resultDiv = document.getElementById('readResult');
+        if(readBtn && resultDiv) {
+          const newBtn = readBtn.cloneNode(true);
+          readBtn.parentNode.replaceChild(newBtn, readBtn);
+          newBtn.addEventListener('click', () => {
+            resultDiv.innerHTML = '⏳ Asserting MREQ & RD ... wait states ...';
+            setTimeout(() => {
+              const randomData = '0x' + Math.floor(Math.random() * 65535).toString(16).toUpperCase();
+              resultDiv.innerHTML = `✅ Data returned from memory bus: ${randomData} (ready signal active)`;
+            }, 500);
+          });
+        }
+      }
     },
     {
-      id: 3,
-      title: "MEMORY HIERARCHY",
-      shortDesc: "Deep dive into L1/L2/L3 caches, DRAM timings & virtual memory mapping — full spectrum analysis.",
-      filename: "Memory.html",
-      icon: "fas fa-database",
-      tags: ["Caches", "DRAM", "TLB"],
-      previewDetail: "📀 Visual memory pyramid: Registers → Cache → Main memory → Swap. Interactive latency heatmap & page table walkthrough.",
-      codeSnip: "// TLB lookup\nif (!tlb_miss(vpn)) { paddr = tlb[vpn]; }\nelse { walk_page_table(vpn); }"
+      id: "memory_unit",
+      name: "Memory Unit",
+      shortDesc: "Abstract memory model: cells, addressing, and control logic.",
+      longDesc: "A generic memory module that encapsulates read/write behavior, address multiplexing, and timing waveforms. This foundational block can be extended to SRAM, DRAM or ROM variations.",
+      tags: ["Address Bus", "Wordline", "Bitcell", "Timing"],
+      icon: "📀",
+      imgUrl: "https://placehold.co/600x400/0f172a/10b981?text=MEMORY+HIERARCHY+UNIT&font=montserrat",
+      demoCode: `
+        <div class="sim-block">
+          <strong><i class="fas fa-database"></i> Simple Memory Write/Read (16 cells)</strong><br>
+          <label>Address (0-15): <input type="number" id="memAddrInput" min="0" max="15" value="5" style="width:60px; background:#0f172a; color:white; border:1px solid #3b82f6;"></label>
+          <label>Data (0-255): <input type="number" id="memDataInput" min="0" max="255" value="42" style="width:70px; background:#0f172a; color:white;"></label><br>
+          <button id="writeMemBtn" style="margin:6px 4px 6px 0;"><i class="fas fa-pen"></i> WRITE</button>
+          <button id="readMemBtn"><i class="fas fa-eye"></i> READ</button>
+          <div id="memResult" style="margin-top:8px; background:#00000055; padding:6px; border-radius:12px;">→ Output will appear here</div>
+        </div>
+      `,
+      runScript: () => {
+        let memoryCells = new Array(16).fill(0);
+        const writeBtn = document.getElementById('writeMemBtn');
+        const readBtn = document.getElementById('readMemBtn');
+        const resultDiv = document.getElementById('memResult');
+        const addrInput = document.getElementById('memAddrInput');
+        const dataInput = document.getElementById('memDataInput');
+        if(writeBtn && readBtn && resultDiv) {
+          const newWrite = writeBtn.cloneNode(true);
+          writeBtn.parentNode.replaceChild(newWrite, writeBtn);
+          const newRead = readBtn.cloneNode(true);
+          newWrite.parentNode.replaceChild(newRead, newWrite.nextSibling);
+          newWrite.addEventListener('click', () => {
+            let addr = parseInt(addrInput.value);
+            let data = parseInt(dataInput.value);
+            if(isNaN(addr)) addr = 0;
+            if(isNaN(data)) data = 0;
+            memoryCells[addr % 16] = data;
+            resultDiv.innerHTML = `✅ Write completed: MEM[${addr}] = ${data} (0x${data.toString(16)})`;
+          });
+          newRead.addEventListener('click', () => {
+            let addr = parseInt(addrInput.value);
+            if(isNaN(addr)) addr = 0;
+            let val = memoryCells[addr % 16];
+            resultDiv.innerHTML = `📖 Read MEM[${addr}] = ${val} (hex: 0x${val.toString(16)})`;
+          });
+        }
+      }
     },
     {
-      id: 4,
-      title: "RAM (Dynamic Memory)",
-      shortDesc: "SDRAM & DDR internals: Row activation, column access, refresh cycles, bank groups, and burst transfers.",
-      filename: "RAM.html",
-      icon: "fas fa-memory",
-      tags: ["DDR5", "Refresh", "Burst Mode"],
-      previewDetail: "🧠 Explore RAM cell array, sense amplifiers, and command truth table. Simulate RAS/CAS latency and bank interleaving.",
-      codeSnip: "// DRAM command sequence\nACTIVATE row; READ column;\nPRECHARGE; REFRESH;\n// tRCD, tCL cycles visualized"
+      id: "ram_module",
+      name: "RAM (Random Access Memory)",
+      shortDesc: "Volatile memory simulation with read/write cycles and refresh hint.",
+      longDesc: "Full random-access memory model that stores data while powered. This simulation illustrates SRAM-like behavior: asynchronous read, write enable, and data persistence across cycles.",
+      tags: ["Volatile", "SRAM", "Read/Write", "Word addressing"],
+      icon: "🔁",
+      imgUrl: "https://placehold.co/600x400/0f172a/f97316?text=RAM+MODULE+DIAGRAM&font=montserrat",
+      demoCode: `
+        <div class="sim-block">
+          <strong><i class="fas fa-memory"></i> 8-cell RAM (volatile)</strong><br>
+          <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:6px;">
+            <input type="number" id="ramAddr" placeholder="addr (0-7)" style="width:70px;"> 
+            <input type="number" id="ramDataVal" placeholder="data 0-255"> 
+            <button id="ramWriteOp"><i class="fas fa-save"></i> Store</button>
+            <button id="ramReadOp"><i class="fas fa-folder-open"></i> Load</button>
+          </div>
+          <div id="ramDisplay" style="font-size:0.75rem; background:#020617; padding:6px; border-radius:12px;">RAM content: [0,0,0,0,0,0,0,0]</div>
+        </div>
+      `,
+      runScript: () => {
+        let ramStore = new Array(8).fill(0);
+        const updateDisplay = () => {
+          const disp = document.getElementById('ramDisplay');
+          if(disp) disp.innerText = `RAM content: [${ramStore.join(', ')}]`;
+        };
+        const writeBtn = document.getElementById('ramWriteOp');
+        const readBtn = document.getElementById('ramReadOp');
+        const addrField = document.getElementById('ramAddr');
+        const dataField = document.getElementById('ramDataVal');
+        if(writeBtn && readBtn) {
+          const newWrite = writeBtn.cloneNode(true);
+          writeBtn.parentNode.replaceChild(newWrite, writeBtn);
+          const newRead = readBtn.cloneNode(true);
+          newWrite.parentNode.insertBefore(newRead, newWrite.nextSibling);
+          newWrite.addEventListener('click', () => {
+            let a = parseInt(addrField.value);
+            let d = parseInt(dataField.value);
+            if(isNaN(a)) a=0;
+            if(isNaN(d)) d=0;
+            if(a>=0 && a<8) ramStore[a] = d % 256;
+            updateDisplay();
+          });
+          newRead.addEventListener('click', () => {
+            let a = parseInt(addrField.value);
+            if(isNaN(a)) a=0;
+            let val = (a>=0 && a<8) ? ramStore[a] : 'invalid';
+            alert(`RAM[${a}] = ${val}`);
+          });
+          updateDisplay();
+        }
+      }
     },
     {
-      id: 5,
-      title: "ROM (Read-Only Memory)",
-      shortDesc: "Mask ROM, PROM, EPROM, EEPROM & firmware storage. Explore boot sequence and non-volatile memory mapping.",
-      filename: "ROM.html",
-      icon: "fas fa-save",
-      tags: ["Firmware", "Bootloader", "Non-Volatile"],
-      previewDetail: "📟 Legacy and modern ROM technologies. Bootloader simulation and memory-mapped ROM region. Flash wear-leveling concepts.",
-      codeSnip: "// Boot vector\nreset_vector: jmp 0xFFF0\n; load firmware from ROM to cache\nmemcpy(ROM_BASE, RAM_SHADOW, size);"
+      id: "rom_module",
+      name: "ROM (Read-Only Memory)",
+      shortDesc: "Preloaded firmware / bootloader simulation. Immutable data.",
+      longDesc: "Read-only memory with preset values (simulating firmware vector table). Demonstrates non-volatile storage characteristics and how CPUs fetch initial instructions from ROM.",
+      tags: ["Non-volatile", "Mask ROM", "Boot code", "Firmware"],
+      icon: "📜",
+      imgUrl: "https://placehold.co/600x400/0f172a/ef4444?text=ROM+FIRMWARE+STORAGE&font=montserrat",
+      demoCode: `
+        <div class="sim-block">
+          <strong><i class="fas fa-book"></i> ROM content (predefined boot vector)</strong><br>
+          <label>Address (0-7): <input type="number" id="romAddrInput" min="0" max="7" value="0"></label>
+          <button id="romReadButton"><i class="fas fa-search"></i> Fetch from ROM</button>
+          <div id="romResult" style="margin-top:8px; background:#00000066; padding:5px;">→ ROM data will appear</div>
+          <p style="font-size:0.7rem;">* pre-loaded with firmware patterns: reset vector, interrupt handlers</p>
+        </div>
+      `,
+      runScript: () => {
+        const romData = [0xEA, 0x12, 0x7F, 0x3C, 0x01, 0xFF, 0xAA, 0x55];
+        const readBtn = document.getElementById('romReadButton');
+        const addrInput = document.getElementById('romAddrInput');
+        const resultDiv = document.getElementById('romResult');
+        if(readBtn && addrInput && resultDiv) {
+          const newBtn = readBtn.cloneNode(true);
+          readBtn.parentNode.replaceChild(newBtn, readBtn);
+          newBtn.addEventListener('click', () => {
+            let addr = parseInt(addrInput.value);
+            if(isNaN(addr)) addr = 0;
+            addr = Math.min(7, Math.max(0, addr));
+            const value = romData[addr];
+            resultDiv.innerHTML = `🔖 ROM[${addr}] = 0x${value.toString(16).toUpperCase()} (${value} dec) — Non-volatile read success.`;
+          });
+        }
+      }
     }
   ];
 
-  const projectsGrid = document.getElementById('projectsGrid');
-  const modal = document.getElementById('projectModal');
+  // dynamic nav + cards
+  const navContainer = document.getElementById('navLinksContainer');
+  const gridContainer = document.getElementById('projectsGrid');
+
+  function buildNavigation() {
+    navContainer.innerHTML = '';
+    projects.forEach(proj => {
+      const link = document.createElement('a');
+      link.href = `#${proj.id}`;
+      link.innerHTML = `<i class="fas ${getIconForProject(proj.id)}"></i> ${proj.name.split(' ')[0]}`;
+      link.setAttribute('data-nav-id', proj.id);
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.getElementById(proj.id);
+        if(target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active-nav'));
+        link.classList.add('active-nav');
+      });
+      navContainer.appendChild(link);
+    });
+  }
+
+  function getIconForProject(id) {
+    const map = { bus_arch: "fa-bus", cpu_mem: "fa-microchip", memory_unit: "fa-database", ram_module: "fa-memory", rom_module: "fa-book" };
+    return map[id] || "fa-microchip";
+  }
+
+  function buildCards() {
+    gridContainer.innerHTML = '';
+    projects.forEach(proj => {
+      const card = document.createElement('div');
+      card.className = 'project-card';
+      card.id = proj.id;
+      card.setAttribute('data-card-id', proj.id);
+      card.innerHTML = `
+        <img class="project-img" src="${proj.imgUrl}" alt="${proj.name} schematic" loading="lazy">
+        <div class="card-header">
+          <h3><i class="fas ${getIconForProject(proj.id)}"></i> ${proj.name}</h3>
+          <div class="icon-badge">${proj.icon}</div>
+        </div>
+        <div class="card-content">
+          <p>${proj.shortDesc}</p>
+          <div class="tech-tags">
+            ${proj.tags.map(tag => `<span>#${tag}</span>`).join('')}
+          </div>
+        </div>
+        <div class="card-footer">
+          <button class="demo-btn" data-id="${proj.id}"><i class="fas fa-play"></i> simulate</button>
+          <span class="detail-link"><i class="fas fa-arrow-right"></i> arch details</span>
+        </div>
+      `;
+      gridContainer.appendChild(card);
+    });
+    document.querySelectorAll('.demo-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const pid = btn.getAttribute('data-id');
+        const proj = projects.find(p => p.id === pid);
+        if(proj) openModal(proj);
+      });
+    });
+  }
+
+  // modal functions
+  const modalOverlay = document.getElementById('modalOverlay');
   const modalTitle = document.getElementById('modalTitle');
-  const modalBodyElem = document.getElementById('modalBody');
-  const previewCodeBlock = document.getElementById('previewCodeBlock');
-  const modalOpenFullLink = document.getElementById('modalOpenFullLink');
+  const modalBody = document.getElementById('modalBody');
   const closeModalBtn = document.getElementById('closeModalBtn');
 
-  // Helper: build card HTML
-  function buildCard(project) {
-    const card = document.createElement('div');
-    card.className = 'project-card';
-    card.setAttribute('data-filename', project.filename);
-    card.setAttribute('data-title', project.title);
-    card.innerHTML = `
-      <div class="card-icon"><i class="${project.icon}"></i></div>
-      <h3>${project.title}</h3>
-      <p>${project.shortDesc}</p>
-      <div class="tech-tags">
-        ${project.tags.map(tag => `<span class="tech-tag">${tag}</span>`).join('')}
-      </div>
-      <div class="card-footer">
-        <span class="live-link view-details" data-id="${project.id}">
-          <i class="fas fa-eye"></i> preview core
-        </span>
-        <span class="live-link launch-project" data-filename="${project.filename}">
-          <i class="fas fa-rocket"></i> launch →
-        </span>
-      </div>
-    `;
-    // attach event listeners later via delegation or separate. Use dataset
-    return card;
-  }
-
-  // render all cards
-  projectsData.forEach(proj => {
-    projectsGrid.appendChild(buildCard(proj));
-  });
-
-  // attach dynamic listeners after render (event delegation)
-  function attachCardEvents() {
-    // "view-details" click -> modal with info
-    document.querySelectorAll('.view-details').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const card = btn.closest('.project-card');
-        const title = card.querySelector('h3').innerText;
-        const project = projectsData.find(p => p.title === title);
-        if (project) {
-          openModal(project);
-        }
-      });
-    });
-
-    // "launch-project" click -> simulate opening the actual .html file
-    document.querySelectorAll('.launch-project').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const filename = btn.getAttribute('data-filename');
-        if (filename) {
-          // Simulate a live link to the respective file. In real portfolio, these files would exist.
-          // For demonstration, we open a new tab with a simulation representation: 
-          // Since we need to keep the portfolio self-contained but interactive, we show a toast-like message and open a dataURL?
-          // Better: because it's a portfolio, we can either open a modal preview with full details or generate a dummy page preview.
-          // But we respect the file naming: we'll open a new window with a placeholder showing that the module is ready.
-          // To be futuristic and functional, we display a simulation inside modal? But better: open new tab with detailed description.
-          const dummyContent = `
-            <!DOCTYPE html>
-            <html><head><meta charset="UTF-8"><title>${filename.replace('.html','')} | Nexus Core</title><style>body{background:#010714;color:#3cff9e;font-family:monospace;display:flex;justify-content:center;align-items:center;height:100vh;}</style></head><body><div style="text-align:center"><h1>⚡ ${filename} ⚡</h1><p>Interactive simulation ready — Full hardware model with realtime metrics.</p><p><i>Futuristic bus / memory coordination engine loaded.</i></p><a href="#" style="color:#3cff9e" onclick="window.close()">close simulation</a></div></body></html>
-          `;
-          const blob = new Blob([dummyContent], {type: 'text/html'});
-          const url = URL.createObjectURL(blob);
-          window.open(url, '_blank');
-          setTimeout(() => URL.revokeObjectURL(url), 100);
-        } else {
-          alert("Project file not found in workspace, but simulation ready in production.");
-        }
-      });
-    });
-  }
-
   function openModal(project) {
-    modalTitle.innerText = project.title;
-    // Build detailed preview with futuristic description
-    modalBodyElem.innerHTML = `
-      <p style="margin-bottom: 1rem;">🔮 <strong>${project.title}</strong> — deep dive into next-gen architecture.</p>
-      <p>${project.previewDetail}</p>
-      <div class="demo-preview">
-        <i class="fas fa-code" style="margin-right: 8px;"></i> Interactive snippet (simulation ready)<br>
-        <pre style="margin-top: 8px; overflow-x: auto; font-size:0.8rem;">${project.codeSnip}</pre>
-      </div>
-      <div class="btn-sm"><i class="fas fa-chart-line"></i> Live metrics: ${project.tags[0]} & coherence</div>
+    modalTitle.innerHTML = `<i class="fas fa-microchip"></i> ${project.name}`;
+    modalBody.innerHTML = `
+      <p style="margin-bottom:12px;">${project.longDesc}</p>
+      <div class="simulation-area" id="simulationContainer">${project.demoCode}</div>
+      <p style="margin-top:12px; font-size:0.75rem;"><i class="fas fa-laptop-code"></i> interactive logic — click to simulate hardware behavior.</p>
     `;
-    // update full link: use object url for dummy html or if we want, we can also use the launch behavior
-    modalOpenFullLink.onclick = (e) => {
-      e.preventDefault();
-      const dummyFull = `
-        <!DOCTYPE html>
-        <html><head><title>${project.title} Simulator</title><style>body{background:#000;color:#0f0;font-family:monospace;}</style></head><body><h2>${project.title} — advanced model</h2><p>Detailed architecture simulation: ${project.shortDesc}</p><pre>${project.codeSnip}</pre><p>✨ Full memory mapping, bus transactions & coordination logic</p></body></html>
-      `;
-      const fileBlob = new Blob([dummyFull], {type: 'text/html'});
-      const fileUrl = URL.createObjectURL(fileBlob);
-      window.open(fileUrl, '_blank');
-      setTimeout(() => URL.revokeObjectURL(fileUrl), 200);
-    };
-    modal.style.display = 'flex';
+    modalOverlay.classList.add('active');
+    setTimeout(() => { if(project.runScript) project.runScript(); }, 30);
   }
-
-  function closeModal() {
-    modal.style.display = 'none';
-  }
-
-  // Global close
+  function closeModal() { modalOverlay.classList.remove('active'); }
   closeModalBtn.addEventListener('click', closeModal);
-  window.addEventListener('click', (e) => {
-    if (e.target === modal) closeModal();
-  });
+  modalOverlay.addEventListener('click', (e) => { if(e.target === modalOverlay) closeModal(); });
 
-  attachCardEvents();
-  // Additionally, because cards are dynamically appended via buildCard, we also need to ensure events if any extra
-  // But we used event delegation on static parent but actual listeners attached after dom ready. All good.
+  // intersection observer active nav
+  function observeCards() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting) {
+          const id = entry.target.getAttribute('data-card-id');
+          document.querySelectorAll('.nav-links a').forEach(link => {
+            link.classList.remove('active-nav');
+            if(link.getAttribute('data-nav-id') === id) link.classList.add('active-nav');
+          });
+        }
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.project-card').forEach(card => observer.observe(card));
+  }
 
-  // Also attach a secondary listener on projectsGrid for dynamic items if needed? But our attachCardEvents runs after rendering.
-  // But we need to call it again if projectsGrid changes (no changes), fine.
-
-  // set footer year
-  document.getElementById('year').innerText = new Date().getFullYear();
-
-  // small interactive hover effect
-  console.log("Futuristic portfolio ready | architecture nexus");
+  buildNavigation();
+  buildCards();
+  observeCards();
 </script>
 </body>
 </html>
