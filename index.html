@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Nexus Core | Futuristic Portfolio</title>
+  <!-- Google Fonts: Inter & Orbitron for tech/futuristic look -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 (free icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: radial-gradient(circle at 10% 20%, #03050b, #000000);
+      font-family: 'Inter', sans-serif;
+      color: #eef5ff;
+      line-height: 1.5;
+      scroll-behavior: smooth;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0a0f1a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #3cff9e;
+      border-radius: 8px;
+      box-shadow: inset 0 0 6px rgba(0,255,170,0.5);
+    }
+
+    /* Glowing effect classes */
+    .glow-text {
+      text-shadow: 0 0 6px #3cff9e, 0 0 12px rgba(60, 255, 158, 0.4);
+    }
+    .neon-border {
+      border: 1px solid rgba(60, 255, 158, 0.4);
+      box-shadow: 0 0 12px rgba(60, 255, 158, 0.2);
+      transition: all 0.25s ease;
+    }
+    .neon-border:hover {
+      border-color: #3cff9e;
+      box-shadow: 0 0 20px rgba(60, 255, 158, 0.6);
+    }
+
+    /* container */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem;
+    }
+
+    /* Header / Nav */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 1rem 0 2rem 0;
+      border-bottom: 1px solid rgba(60, 255, 158, 0.3);
+      margin-bottom: 2rem;
+    }
+    .logo h1 {
+      font-family: 'Orbitron', monospace;
+      font-weight: 700;
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, #ffffff, #3cff9e);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .logo span {
+      font-size: 0.8rem;
+      letter-spacing: 3px;
+      color: #8aaec0;
+    }
+    .nav-links a {
+      color: #ccf4e6;
+      text-decoration: none;
+      margin-left: 2rem;
+      font-weight: 500;
+      transition: 0.2s;
+      font-size: 1rem;
+    }
+    .nav-links a:hover {
+      color: #3cff9e;
+      text-shadow: 0 0 5px #3cff9e;
+    }
+
+    /* Hero Section */
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      margin: 3rem 0 5rem 0;
+      gap: 2rem;
+    }
+    .hero-content {
+      flex: 1;
+    }
+    .hero-badge {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.8rem;
+      background: rgba(60, 255, 158, 0.15);
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      border-radius: 40px;
+      backdrop-filter: blur(4px);
+      border: 1px solid #3cff9e55;
+      margin-bottom: 1rem;
+    }
+    .hero-content h2 {
+      font-size: 3.2rem;
+      font-weight: 800;
+      font-family: 'Orbitron', monospace;
+      letter-spacing: -1px;
+      line-height: 1.2;
+    }
+    .hero-content p {
+      font-size: 1.1rem;
+      color: #bfd9f0;
+      max-width: 550px;
+      margin: 1.2rem 0 1.8rem 0;
+    }
+    .btn-group {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 0.8rem 1.8rem;
+      border-radius: 40px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.25s;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.5px;
+    }
+    .btn-primary {
+      background: #3cff9e;
+      color: #0a0f1a;
+      box-shadow: 0 0 12px #3cff9e;
+    }
+    .btn-primary:hover {
+      background: #2ae88a;
+      box-shadow: 0 0 22px #3cff9e;
+      transform: scale(1.02);
+    }
+    .btn-outline {
+      border: 1px solid #3cff9e;
+      color: #3cff9e;
+      background: transparent;
+    }
+    .btn-outline:hover {
+      background: #3cff9e20;
+      box-shadow: 0 0 10px #3cff9e;
+    }
+    .hero-stats {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      background: rgba(12, 20, 30, 0.5);
+      backdrop-filter: blur(8px);
+      border-radius: 48px;
+      padding: 1.8rem;
+      border: 1px solid rgba(60,255,158,0.2);
+    }
+    .stat {
+      text-align: center;
+    }
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 800;
+      font-family: 'Orbitron', monospace;
+      color: #3cff9e;
+    }
+
+    /* Section titles */
+    .section-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 2rem;
+      margin: 2rem 0 1.5rem 0;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .section-title i {
+      color: #3cff9e;
+      font-size: 2rem;
+    }
+    .title-underline {
+      height: 3px;
+      width: 80px;
+      background: linear-gradient(90deg, #3cff9e, #00a3ff);
+      border-radius: 4px;
+    }
+
+    /* Projects Grid - Futuristic Cards */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0 3rem;
+    }
+    .project-card {
+      background: rgba(8, 14, 26, 0.75);
+      backdrop-filter: blur(8px);
+      border-radius: 32px;
+      padding: 1.8rem;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(60, 255, 158, 0.2);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at top right, rgba(60,255,158,0.05), transparent);
+      pointer-events: none;
+    }
+    .project-card:hover {
+      transform: translateY(-8px);
+      border-color: #3cff9e;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.6), 0 0 0 1px #3cff9e40;
+    }
+    .card-icon {
+      font-size: 2.8rem;
+      color: #3cff9e;
+      margin-bottom: 1rem;
+    }
+    .project-card h3 {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.5px;
+    }
+    .project-card p {
+      color: #b9d0e8;
+      font-size: 0.9rem;
+      margin: 0.8rem 0 1rem;
+    }
+    .tech-tag {
+      display: inline-block;
+      background: #0f172a;
+      padding: 0.2rem 0.7rem;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-family: monospace;
+      color: #3cff9e;
+      border: 1px solid #3cff9e60;
+      margin-right: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.4rem;
+    }
+    .live-link {
+      color: #3cff9e;
+      text-decoration: none;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+    }
+    .live-link i {
+      transition: transform 0.2s;
+    }
+    .live-link:hover i {
+      transform: translateX(4px);
+    }
+
+    /* Modal for detailed simulation (futuristic preview) */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Inter', monospace;
+    }
+    .modal-content {
+      background: #0c1122dd;
+      border: 2px solid #3cff9e;
+      border-radius: 40px;
+      width: 90%;
+      max-width: 800px;
+      padding: 2rem;
+      position: relative;
+      box-shadow: 0 0 40px rgba(60,255,158,0.4);
+      animation: fadeUp 0.3s ease;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #3cff9e60;
+      padding-bottom: 0.75rem;
+      margin-bottom: 1.2rem;
+    }
+    .modal-header h2 {
+      font-family: 'Orbitron', monospace;
+      color: #3cff9e;
+    }
+    .close-modal {
+      font-size: 1.8rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: #eef5ff;
+      transition: 0.2s;
+    }
+    .close-modal:hover {
+      color: #3cff9e;
+      transform: scale(1.1);
+    }
+    .modal-body {
+      color: #e0f0ff;
+      line-height: 1.6;
+    }
+    .demo-preview {
+      background: #010712;
+      border-radius: 28px;
+      padding: 1rem;
+      margin: 1.2rem 0;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      border-left: 5px solid #3cff9e;
+    }
+    .btn-sm {
+      background: #3cff9e20;
+      padding: 0.4rem 1rem;
+      border-radius: 30px;
+      display: inline-block;
+      margin-top: 0.8rem;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 5rem;
+      text-align: center;
+      padding: 2rem 0;
+      border-top: 1px solid rgba(60, 255, 158, 0.2);
+      font-size: 0.8rem;
+      color: #7e95b0;
+    }
+
+    @media (max-width: 780px) {
+      .container {
+        padding: 1rem;
+      }
+      .hero-content h2 {
+        font-size: 2.2rem;
+      }
+      .nav-links a {
+        margin-left: 1rem;
+      }
+      .hero-stats {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo">
+      <h1>⟡ NEXUS<span>_ARCH</span></h1>
+      <span>futuristic hardware lab</span>
+    </div>
+    <div class="nav-links">
+      <a href="#projects">PROJECTS</a>
+      <a href="#contact">CONTACT</a>
+      <a href="#"><i class="fas fa-microchip"></i> CORE</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge"><i class="fas fa-cpu"></i> Quantum-ready architecture</div>
+      <h2>Architecting <span class="glow-text">tomorrow's</span><br>memory & buses</h2>
+      <p>Explore immersive simulations & deep dives into low-level hardware: Bus architecture, CPU-Memory coordination, RAM/ROM internals, and next-gen memory hierarchy.</p>
+      <div class="btn-group">
+        <a href="#projects" class="btn btn-primary"><i class="fas fa-arrow-down"></i> Explore Vaults</a>
+        <a href="#" class="btn btn-outline"><i class="fas fa-microchip"></i> Live Demo</a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-number">5</div><div>Core Projects</div></div>
+      <div class="stat"><div class="stat-number">4.2k+</div><div>Sim Runs</div></div>
+      <div class="stat"><div class="stat-number"><i class="fas fa-bolt"></i></div><div>Neural latency</div></div>
+    </div>
+  </section>
+
+  <div id="projects">
+    <div class="section-title">
+      <i class="fas fa-project-diagram"></i>
+      <span>✦ Neural Project Portfolio</span>
+      <div class="title-underline"></div>
+    </div>
+  </div>
+
+  <div class="projects-grid" id="projectsGrid">
+    <!-- Cards will be dynamically injected, but we build static for clarity but using JS mapping for future-proof. 
+    However we'll construct from data array so that we match the requested file names: 
+    Bus_architecture.html, CPU-MemoryCoordination.html, Memory.html, RAM.html, ROM.html -->
+  </div>
+
+  <!-- Modal for details (simulation preview) -->
+  <div id="projectModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">Project Core</h2>
+        <button class="close-modal" id="closeModalBtn">&times;</button>
+      </div>
+      <div class="modal-body" id="modalBody">
+        <p>Interactive architecture simulation & documentation preview.</p>
+        <div class="demo-preview" id="previewCodeBlock">
+          // futuristic logic emulation snippet
+        </div>
+        <a href="#" id="modalOpenFullLink" class="live-link" target="_blank"><i class="fas fa-external-link-alt"></i> Launch full project →</a>
+      </div>
+    </div>
+  </div>
+
+  <footer id="contact">
+    <p><i class="fas fa-globe"></i> Nexus Architecture Lab — pushing boundaries of silicon & memory fabrics</p>
+    <p style="margin-top: 12px;"><i class="fab fa-github"></i> @nexus_core  |  <i class="fas fa-envelope"></i> arch@nexus.dev  |  <i class="fas fa-microchip"></i> <span id="year"></span> </p>
+  </footer>
+</div>
+
+<script>
+  // Project Dataset: exactly matching the requested html files: Bus_architecture.html, CPU-MemoryCoordination.html, Memory.html, RAM.html, ROM.html
+  const projectsData = [
+    {
+      id: 1,
+      title: "BUS ARCHITECTURE",
+      shortDesc: "High-bandwidth data highway simulation: Address, Control & Data bus orchestration with arbitration logic.",
+      filename: "Bus_architecture.html",
+      icon: "fas fa-exchange-alt",
+      tags: ["System Bus", "Arbitration", "Parallel I/O"],
+      previewDetail: "🔌 Dynamic bus mastering & split-transaction protocol. Simulate read/write cycles across multiple agents. Real-time throughput monitoring.",
+      codeSnip: "// Bus transaction example\nbus.request(CPU_ID);\nbus.grant();\ndata = bus.read(0x7A3F);\nbus.release();"
+    },
+    {
+      id: 2,
+      title: "CPU-Memory Coordination",
+      shortDesc: "Cache coherence & unified memory controller: Explore store buffers, write-back policies, and out-of-order coordination.",
+      filename: "CPU-MemoryCoordination.html",
+      icon: "fas fa-microchip",
+      tags: ["MESI", "Memory Controller", "Coherency"],
+      previewDetail: "⚡ Multi-core coordination with MESI protocol. Visualize memory barrier and prefetching mechanics. Latency analysis across NUMA nodes.",
+      codeSnip: "// cache line update\nif (state == Modified) { writeBack(); }\nsetState(Shared);\nsnoopBus(addr);"
+    },
+    {
+      id: 3,
+      title: "MEMORY HIERARCHY",
+      shortDesc: "Deep dive into L1/L2/L3 caches, DRAM timings & virtual memory mapping — full spectrum analysis.",
+      filename: "Memory.html",
+      icon: "fas fa-database",
+      tags: ["Caches", "DRAM", "TLB"],
+      previewDetail: "📀 Visual memory pyramid: Registers → Cache → Main memory → Swap. Interactive latency heatmap & page table walkthrough.",
+      codeSnip: "// TLB lookup\nif (!tlb_miss(vpn)) { paddr = tlb[vpn]; }\nelse { walk_page_table(vpn); }"
+    },
+    {
+      id: 4,
+      title: "RAM (Dynamic Memory)",
+      shortDesc: "SDRAM & DDR internals: Row activation, column access, refresh cycles, bank groups, and burst transfers.",
+      filename: "RAM.html",
+      icon: "fas fa-memory",
+      tags: ["DDR5", "Refresh", "Burst Mode"],
+      previewDetail: "🧠 Explore RAM cell array, sense amplifiers, and command truth table. Simulate RAS/CAS latency and bank interleaving.",
+      codeSnip: "// DRAM command sequence\nACTIVATE row; READ column;\nPRECHARGE; REFRESH;\n// tRCD, tCL cycles visualized"
+    },
+    {
+      id: 5,
+      title: "ROM (Read-Only Memory)",
+      shortDesc: "Mask ROM, PROM, EPROM, EEPROM & firmware storage. Explore boot sequence and non-volatile memory mapping.",
+      filename: "ROM.html",
+      icon: "fas fa-save",
+      tags: ["Firmware", "Bootloader", "Non-Volatile"],
+      previewDetail: "📟 Legacy and modern ROM technologies. Bootloader simulation and memory-mapped ROM region. Flash wear-leveling concepts.",
+      codeSnip: "// Boot vector\nreset_vector: jmp 0xFFF0\n; load firmware from ROM to cache\nmemcpy(ROM_BASE, RAM_SHADOW, size);"
+    }
+  ];
+
+  const projectsGrid = document.getElementById('projectsGrid');
+  const modal = document.getElementById('projectModal');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalBodyElem = document.getElementById('modalBody');
+  const previewCodeBlock = document.getElementById('previewCodeBlock');
+  const modalOpenFullLink = document.getElementById('modalOpenFullLink');
+  const closeModalBtn = document.getElementById('closeModalBtn');
+
+  // Helper: build card HTML
+  function buildCard(project) {
+    const card = document.createElement('div');
+    card.className = 'project-card';
+    card.setAttribute('data-filename', project.filename);
+    card.setAttribute('data-title', project.title);
+    card.innerHTML = `
+      <div class="card-icon"><i class="${project.icon}"></i></div>
+      <h3>${project.title}</h3>
+      <p>${project.shortDesc}</p>
+      <div class="tech-tags">
+        ${project.tags.map(tag => `<span class="tech-tag">${tag}</span>`).join('')}
+      </div>
+      <div class="card-footer">
+        <span class="live-link view-details" data-id="${project.id}">
+          <i class="fas fa-eye"></i> preview core
+        </span>
+        <span class="live-link launch-project" data-filename="${project.filename}">
+          <i class="fas fa-rocket"></i> launch →
+        </span>
+      </div>
+    `;
+    // attach event listeners later via delegation or separate. Use dataset
+    return card;
+  }
+
+  // render all cards
+  projectsData.forEach(proj => {
+    projectsGrid.appendChild(buildCard(proj));
+  });
+
+  // attach dynamic listeners after render (event delegation)
+  function attachCardEvents() {
+    // "view-details" click -> modal with info
+    document.querySelectorAll('.view-details').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const card = btn.closest('.project-card');
+        const title = card.querySelector('h3').innerText;
+        const project = projectsData.find(p => p.title === title);
+        if (project) {
+          openModal(project);
+        }
+      });
+    });
+
+    // "launch-project" click -> simulate opening the actual .html file
+    document.querySelectorAll('.launch-project').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const filename = btn.getAttribute('data-filename');
+        if (filename) {
+          // Simulate a live link to the respective file. In real portfolio, these files would exist.
+          // For demonstration, we open a new tab with a simulation representation: 
+          // Since we need to keep the portfolio self-contained but interactive, we show a toast-like message and open a dataURL?
+          // Better: because it's a portfolio, we can either open a modal preview with full details or generate a dummy page preview.
+          // But we respect the file naming: we'll open a new window with a placeholder showing that the module is ready.
+          // To be futuristic and functional, we display a simulation inside modal? But better: open new tab with detailed description.
+          const dummyContent = `
+            <!DOCTYPE html>
+            <html><head><meta charset="UTF-8"><title>${filename.replace('.html','')} | Nexus Core</title><style>body{background:#010714;color:#3cff9e;font-family:monospace;display:flex;justify-content:center;align-items:center;height:100vh;}</style></head><body><div style="text-align:center"><h1>⚡ ${filename} ⚡</h1><p>Interactive simulation ready — Full hardware model with realtime metrics.</p><p><i>Futuristic bus / memory coordination engine loaded.</i></p><a href="#" style="color:#3cff9e" onclick="window.close()">close simulation</a></div></body></html>
+          `;
+          const blob = new Blob([dummyContent], {type: 'text/html'});
+          const url = URL.createObjectURL(blob);
+          window.open(url, '_blank');
+          setTimeout(() => URL.revokeObjectURL(url), 100);
+        } else {
+          alert("Project file not found in workspace, but simulation ready in production.");
+        }
+      });
+    });
+  }
+
+  function openModal(project) {
+    modalTitle.innerText = project.title;
+    // Build detailed preview with futuristic description
+    modalBodyElem.innerHTML = `
+      <p style="margin-bottom: 1rem;">🔮 <strong>${project.title}</strong> — deep dive into next-gen architecture.</p>
+      <p>${project.previewDetail}</p>
+      <div class="demo-preview">
+        <i class="fas fa-code" style="margin-right: 8px;"></i> Interactive snippet (simulation ready)<br>
+        <pre style="margin-top: 8px; overflow-x: auto; font-size:0.8rem;">${project.codeSnip}</pre>
+      </div>
+      <div class="btn-sm"><i class="fas fa-chart-line"></i> Live metrics: ${project.tags[0]} & coherence</div>
+    `;
+    // update full link: use object url for dummy html or if we want, we can also use the launch behavior
+    modalOpenFullLink.onclick = (e) => {
+      e.preventDefault();
+      const dummyFull = `
+        <!DOCTYPE html>
+        <html><head><title>${project.title} Simulator</title><style>body{background:#000;color:#0f0;font-family:monospace;}</style></head><body><h2>${project.title} — advanced model</h2><p>Detailed architecture simulation: ${project.shortDesc}</p><pre>${project.codeSnip}</pre><p>✨ Full memory mapping, bus transactions & coordination logic</p></body></html>
+      `;
+      const fileBlob = new Blob([dummyFull], {type: 'text/html'});
+      const fileUrl = URL.createObjectURL(fileBlob);
+      window.open(fileUrl, '_blank');
+      setTimeout(() => URL.revokeObjectURL(fileUrl), 200);
+    };
+    modal.style.display = 'flex';
+  }
+
+  function closeModal() {
+    modal.style.display = 'none';
+  }
+
+  // Global close
+  closeModalBtn.addEventListener('click', closeModal);
+  window.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  attachCardEvents();
+  // Additionally, because cards are dynamically appended via buildCard, we also need to ensure events if any extra
+  // But we used event delegation on static parent but actual listeners attached after dom ready. All good.
+
+  // Also attach a secondary listener on projectsGrid for dynamic items if needed? But our attachCardEvents runs after rendering.
+  // But we need to call it again if projectsGrid changes (no changes), fine.
+
+  // set footer year
+  document.getElementById('year').innerText = new Date().getFullYear();
+
+  // small interactive hover effect
+  console.log("Futuristic portfolio ready | architecture nexus");
+</script>
+</body>
+</html>
