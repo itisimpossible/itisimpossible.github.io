@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPU-Memory Coordination Simulator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #2a3a7c);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #4fc3f7;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #bbdefb;
+        }
+        
+        .simulator-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .simulator-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .cpu-section, .memory-section {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #4fc3f7;
+            border-bottom: 2px solid #4fc3f7;
+            padding-bottom: 5px;
+        }
+        
+        .cpu-registers {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .register {
+            background: rgba(30, 50, 100, 0.7);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .register.active {
+            background: rgba(76, 175, 80, 0.7);
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.5);
+        }
+        
+        .register-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #bbdefb;
+        }
+        
+        .register-value {
+            font-size: 1.2rem;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 10px;
+        }
+        
+        .memory-cell {
+            background: rgba(30, 50, 100, 0.7);
+            padding: 15px 5px;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .memory-cell:hover {
+            background: rgba(50, 70, 120, 0.7);
+        }
+        
+        .memory-cell.active {
+            background: rgba(255, 152, 0, 0.7);
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 152, 0, 0.5);
+        }
+        
+        .memory-address {
+            font-size: 0.8rem;
+            color: #bbdefb;
+            margin-bottom: 5px;
+        }
+        
+        .memory-value {
+            font-size: 1.1rem;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .control-panel {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+        
+        .program-section {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .program-code {
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 8px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .instruction {
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .instruction.active {
+            background: rgba(76, 175, 80, 0.3);
+            border-left: 4px solid #4caf50;
+        }
+        
+        .btn {
+            background: #4fc3f7;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .btn:hover {
+            background: #29b6f6;
+            transform: translateY(-2px);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn:disabled {
+            background: #546e7a;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-reset {
+            background: #f44336;
+        }
+        
+        .btn-reset:hover {
+            background: #e53935;
+        }
+        
+        .status-bar {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+        
+        .data-path {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            margin: 20px 0;
+            border-radius: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .data-flow {
+            position: absolute;
+            height: 100%;
+            width: 20px;
+            background: #4fc3f7;
+            border-radius: 2px;
+            animation: flow 2s linear infinite;
+            opacity: 0;
+        }
+        
+        @keyframes flow {
+            0% { left: -20px; opacity: 1; }
+            100% { left: 100%; opacity: 1; }
+        }
+        
+        .explanation {
+            margin-top: 30px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            padding: 20px;
+        }
+        
+        .explanation h3 {
+            color: #4fc3f7;
+            margin-bottom: 15px;
+        }
+        
+        .explanation p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CPU-Memory Coordination Simulator</h1>
+            <p class="subtitle">Visualizing how the CPU fetches and stores data in memory</p>
+        </header>
+        
+        <div class="simulator-container">
+            <div class="cpu-section">
+                <h2 class="section-title">Central Processing Unit (CPU)</h2>
+                <div class="cpu-registers">
+                    <div class="register" id="register-pc">
+                        <div class="register-name">Program Counter (PC)</div>
+                        <div class="register-value">0x00</div>
+                    </div>
+                    <div class="register" id="register-ir">
+                        <div class="register-name">Instruction Register (IR)</div>
+                        <div class="register-value">--</div>
+                    </div>
+                    <div class="register" id="register-acc">
+                        <div class="register-name">Accumulator (ACC)</div>
+                        <div class="register-value">0</div>
+                    </div>
+                    <div class="register" id="register-mar">
+                        <div class="register-name">Memory Address Register (MAR)</div>
+                        <div class="register-value">--</div>
+                    </div>
+                    <div class="register" id="register-mdr">
+                        <div class="register-name">Memory Data Register (MDR)</div>
+                        <div class="register-value">--</div>
+                    </div>
+                    <div class="register" id="register-alu">
+                        <div class="register-name">ALU Result</div>
+                        <div class="register-value">--</div>
+                    </div>
+                </div>
+                
+                <div class="data-path">
+                    <div class="data-flow" id="data-flow"></div>
+                </div>
+            </div>
+            
+            <div class="memory-section">
+                <h2 class="section-title">Memory (RAM)</h2>
+                <div class="memory-grid" id="memory-grid">
+                    <!-- Memory cells will be generated by JavaScript -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="control-panel">
+            <h2 class="section-title">Control Panel</h2>
+            <button class="btn" id="btn-step">Step Forward</button>
+            <button class="btn" id="btn-auto">Auto Run</button>
+            <button class="btn btn-reset" id="btn-reset">Reset</button>
+            <button class="btn" id="btn-load">Load Sample Program</button>
+            
+            <div class="status-bar" id="status">
+                Ready to simulate CPU-Memory coordination
+            </div>
+        </div>
+        
+        <div class="program-section">
+            <h2 class="section-title">Program Execution</h2>
+            <div class="program-code" id="program-code">
+                <!-- Program instructions will be displayed here -->
+            </div>
+        </div>
+        
+        <div class="explanation">
+            <h3>How CPU Coordinates with Memory</h3>
+            <p><strong>Fetch Cycle:</strong> The CPU retrieves instructions from memory. The Program Counter (PC) holds the address of the next instruction. This address is copied to the Memory Address Register (MAR), and the instruction is fetched into the Memory Data Register (MDR), then transferred to the Instruction Register (IR).</p>
+            <p><strong>Execute Cycle:</strong> The CPU decodes and executes the instruction. If the instruction requires data from memory, the CPU sends the address to MAR, reads the data into MDR, and processes it using the ALU. For store operations, data is placed in MDR, the address in MAR, and then written to memory.</p>
+            <p>This simulator demonstrates this coordination step by step, highlighting the relevant registers and memory locations during each operation.</p>
+        </div>
+    </div>
+
+    <script>
+        // Simulator state
+        const simulatorState = {
+            memory: new Array(64).fill(null).map((_, i) => ({
+                address: i,
+                value: Math.floor(Math.random() * 100),
+                isInstruction: i < 8
+            })),
+            registers: {
+                pc: 0,      // Program Counter
+                ir: null,   // Instruction Register
+                acc: 0,     // Accumulator
+                mar: null,  // Memory Address Register
+                mdr: null,  // Memory Data Register
+                alu: null   // ALU Result
+            },
+            program: [
+                { type: 'LOAD', address: 10, value: null },
+                { type: 'ADD', address: 11, value: null },
+                { type: 'STORE', address: 12, value: null },
+                { type: 'LOAD', address: 13, value: null },
+                { type: 'SUB', address: 14, value: null },
+                { type: 'STORE', address: 15, value: null },
+                { type: 'HALT', address: null, value: null }
+            ],
+            currentStep: 0,
+            isRunning: false,
+            autoInterval: null
+        };
+
+        // DOM elements
+        const memoryGrid = document.getElementById('memory-grid');
+        const programCode = document.getElementById('program-code');
+        const statusBar = document.getElementById('status');
+        const dataFlow = document.getElementById('data-flow');
+        
+        // Initialize the simulator
+        function initSimulator() {
+            renderMemory();
+            renderProgram();
+            updateRegisters();
+            updateStatus('Ready to simulate CPU-Memory coordination');
+        }
+
+        // Render memory grid
+        function renderMemory() {
+            memoryGrid.innerHTML = '';
+            simulatorState.memory.forEach((cell, index) => {
+                const memoryCell = document.createElement('div');
+                memoryCell.className = 'memory-cell';
+                memoryCell.innerHTML = `
+                    <div class="memory-address">0x${index.toString(16).padStart(2, '0')}</div>
+                    <div class="memory-value">${cell.value !== null ? cell.value : '--'}</div>
+                `;
+                memoryGrid.appendChild(memoryCell);
+            });
+        }
+
+        // Render program code
+        function renderProgram() {
+            programCode.innerHTML = '';
+            simulatorState.program.forEach((instruction, index) => {
+                const instructionEl = document.createElement('div');
+                instructionEl.className = 'instruction';
+                instructionEl.id = `instruction-${index}`;
+                
+                let displayText = '';
+                if (instruction.type === 'LOAD') {
+                    displayText = `LOAD from memory address 0x${instruction.address.toString(16).padStart(2, '0')}`;
+                } else if (instruction.type === 'STORE') {
+                    displayText = `STORE to memory address 0x${instruction.address.toString(16).padStart(2, '0')}`;
+                } else if (instruction.type === 'ADD') {
+                    displayText = `ADD value from memory address 0x${instruction.address.toString(16).padStart(2, '0')}`;
+                } else if (instruction.type === 'SUB') {
+                    displayText = `SUBTRACT value from memory address 0x${instruction.address.toString(16).padStart(2, '0')}`;
+                } else if (instruction.type === 'HALT') {
+                    displayText = `HALT execution`;
+                }
+                
+                instructionEl.textContent = `${index}. ${displayText}`;
+                programCode.appendChild(instructionEl);
+            });
+        }
+
+        // Update register displays
+        function updateRegisters() {
+            document.getElementById('register-pc').querySelector('.register-value').textContent = 
+                `0x${simulatorState.registers.pc.toString(16).padStart(2, '0')}`;
+                
+            document.getElementById('register-ir').querySelector('.register-value').textContent = 
+                simulatorState.registers.ir !== null ? simulatorState.registers.ir : '--';
+                
+            document.getElementById('register-acc').querySelector('.register-value').textContent = 
+                simulatorState.registers.acc;
+                
+            document.getElementById('register-mar').querySelector('.register-value').textContent = 
+                simulatorState.registers.mar !== null ? `0x${simulatorState.registers.mar.toString(16).padStart(2, '0')}` : '--';
+                
+            document.getElementById('register-mdr').querySelector('.register-value').textContent = 
+                simulatorState.registers.mdr !== null ? simulatorState.registers.mdr : '--';
+                
+            document.getElementById('register-alu').querySelector('.register-value').textContent = 
+                simulatorState.registers.alu !== null ? simulatorState.registers.alu : '--';
+        }
+
+        // Update status message
+        function updateStatus(message) {
+            statusBar.textContent = message;
+        }
+
+        // Highlight active elements
+        function highlightActive(registerId, memoryAddress = null) {
+            // Remove active class from all registers
+            document.querySelectorAll('.register').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            // Remove active class from all memory cells
+            document.querySelectorAll('.memory-cell').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            // Remove active class from all instructions
+            document.querySelectorAll('.instruction').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            // Add active class to specified register
+            if (registerId) {
+                document.getElementById(`register-${registerId}`).classList.add('active');
+            }
+            
+            // Add active class to specified memory cell
+            if (memoryAddress !== null) {
+                document.querySelectorAll('.memory-cell')[memoryAddress].classList.add('active');
+            }
+            
+            // Add active class to current instruction
+            document.getElementById(`instruction-${simulatorState.registers.pc}`).classList.add('active');
+        }
+
+        // Animate data flow
+        function animateDataFlow() {
+            dataFlow.style.animation = 'none';
+            setTimeout(() => {
+                dataFlow.style.animation = 'flow 2s linear';
+            }, 10);
+        }
+
+        // Execute one step of the simulation
+        function step() {
+            if (simulatorState.registers.pc >= simulatorState.program.length) {
+                updateStatus('Program execution completed!');
+                return;
+            }
+            
+            const currentInstruction = simulatorState.program[simulatorState.registers.pc];
+            let statusMessage = '';
+            
+            // Reset ALU result
+            simulatorState.registers.alu = null;
+            
+            // Execute based on instruction type
+            switch(currentInstruction.type) {
+                case 'LOAD':
+                    // Fetch phase
+                    highlightActive('pc');
+                    updateStatus('Fetching instruction...');
+                    setTimeout(() => {
+                        simulatorState.registers.ir = currentInstruction.type;
+                        highlightActive('ir');
+                        updateStatus('Instruction loaded into IR. Setting up memory address...');
+                        
+                        setTimeout(() => {
+                            simulatorState.registers.mar = currentInstruction.address;
+                            highlightActive('mar', currentInstruction.address);
+                            updateStatus('Memory address set in MAR. Fetching data from memory...');
+                            animateDataFlow();
+                            
+                            setTimeout(() => {
+                                const value = simulatorState.memory[currentInstruction.address].value;
+                                simulatorState.registers.mdr = value;
+                                highlightActive('mdr', currentInstruction.address);
+                                updateStatus('Data fetched into MDR. Transferring to accumulator...');
+                                
+                                setTimeout(() => {
+                                    simulatorState.registers.acc = value;
+                                    simulatorState.registers.mdr = null;
+                                    simulatorState.registers.mar = null;
+                                    highlightActive('acc');
+                                    updateStatus(`Data (${value}) loaded into accumulator.`);
+                                    simulatorState.registers.pc++;
+                                    updateRegisters();
+                                }, 1000);
+                            }, 1000);
+                        }, 1000);
+                    }, 1000);
+                    break;
+                    
+                case 'ADD':
+                    // Fetch phase
+                    highlightActive('pc');
+                    updateStatus('Fetching ADD instruction...');
+                    setTimeout(() => {
+                        simulatorState.registers.ir = currentInstruction.type;
+                        highlightActive('ir');
+                        updateStatus('ADD instruction loaded. Setting up memory address...');
+                        
+                        setTimeout(() => {
+                            simulatorState.registers.mar = currentInstruction.address;
+                            highlightActive('mar', currentInstruction.address);
+                            updateStatus('Memory address set. Fetching value to add...');
+                            animateDataFlow();
+                            
+                            setTimeout(() => {
+                                const value = simulatorState.memory[currentInstruction.address].value;
+                                simulatorState.registers.mdr = value;
+                                highlightActive('mdr', currentInstruction.address);
+                                updateStatus(`Value (${value}) fetched. Performing addition in ALU...`);
+                                
+                                setTimeout(() => {
+                                    const result = simulatorState.registers.acc + value;
+                                    simulatorState.registers.alu = result;
+                                    highlightActive('alu');
+                                    updateStatus(`Addition completed: ${simulatorState.registers.acc} + ${value} = ${result}`);
+                                    
+                                    setTimeout(() => {
+                                        simulatorState.registers.acc = result;
+                                        simulatorState.registers.mdr = null;
+                                        simulatorState.registers.mar = null;
+                                        simulatorState.registers.alu = null;
+                                        highlightActive('acc');
+                                        updateStatus(`Result (${result}) stored in accumulator.`);
+                                        simulatorState.registers.pc++;
+                                        updateRegisters();
+                                    }, 1000);
+                                }, 1000);
+                            }, 1000);
+                        }, 1000);
+                    }, 1000);
+                    break;
+                    
+                case 'SUB':
+                    // Similar to ADD but with subtraction
+                    highlightActive('pc');
+                    updateStatus('Fetching SUB instruction...');
+                    setTimeout(() => {
+                        simulatorState.registers.ir = currentInstruction.type;
+                        highlightActive('ir');
+                        updateStatus('SUB instruction loaded. Setting up memory address...');
+                        
+                        setTimeout(() => {
+                            simulatorState.registers.mar = currentInstruction.address;
+                            highlightActive('mar', currentInstruction.address);
+                            updateStatus('Memory address set. Fetching value to subtract...');
+                            animateDataFlow();
+                            
+                            setTimeout(() => {
+                                const value = simulatorState.memory[currentInstruction.address].value;
+                                simulatorState.registers.mdr = value;
+                                highlightActive('mdr', currentInstruction.address);
+                                updateStatus(`Value (${value}) fetched. Performing subtraction in ALU...`);
+                                
+                                setTimeout(() => {
+                                    const result = simulatorState.registers.acc - value;
+                                    simulatorState.registers.alu = result;
+                                    highlightActive('alu');
+                                    updateStatus(`Subtraction completed: ${simulatorState.registers.acc} - ${value} = ${result}`);
+                                    
+                                    setTimeout(() => {
+                                        simulatorState.registers.acc = result;
+                                        simulatorState.registers.mdr = null;
+                                        simulatorState.registers.mar = null;
+                                        simulatorState.registers.alu = null;
+                                        highlightActive('acc');
+                                        updateStatus(`Result (${result}) stored in accumulator.`);
+                                        simulatorState.registers.pc++;
+                                        updateRegisters();
+                                    }, 1000);
+                                }, 1000);
+                            }, 1000);
+                        }, 1000);
+                    }, 1000);
+                    break;
+                    
+                case 'STORE':
+                    // Fetch phase
+                    highlightActive('pc');
+                    updateStatus('Fetching STORE instruction...');
+                    setTimeout(() => {
+                        simulatorState.registers.ir = currentInstruction.type;
+                        highlightActive('ir');
+                        updateStatus('STORE instruction loaded. Preparing to write data to memory...');
+                        
+                        setTimeout(() => {
+                            simulatorState.registers.mdr = simulatorState.registers.acc;
+                            highlightActive('mdr');
+                            updateStatus('Data from accumulator moved to MDR. Setting memory address...');
+                            
+                            setTimeout(() => {
+                                simulatorState.registers.mar = currentInstruction.address;
+                                highlightActive('mar', currentInstruction.address);
+                                updateStatus('Memory address set in MAR. Writing data to memory...');
+                                animateDataFlow();
+                                
+                                setTimeout(() => {
+                                    simulatorState.memory[currentInstruction.address].value = simulatorState.registers.mdr;
+                                    highlightActive(null, currentInstruction.address);
+                                    updateStatus(`Data (${simulatorState.registers.mdr}) written to memory address 0x${currentInstruction.address.toString(16).padStart(2, '0')}`);
+                                    renderMemory();
+                                    
+                                    setTimeout(() => {
+                                        simulatorState.registers.mdr = null;
+                                        simulatorState.registers.mar = null;
+                                        updateStatus('Store operation completed.');
+                                        simulatorState.registers.pc++;
+                                        updateRegisters();
+                                    }, 1000);
+                                }, 1000);
+                            }, 1000);
+                        }, 1000);
+                    }, 1000);
+                    break;
+                    
+                case 'HALT':
+                    updateStatus('HALT instruction executed. Program completed.');
+                    highlightActive('ir');
+                    break;
+            }
+            
+            simulatorState.currentStep++;
+        }
+
+        // Auto-run the simulation
+        function autoRun() {
+            if (simulatorState.isRunning) {
+                clearInterval(simulatorState.autoInterval);
+                simulatorState.isRunning = false;
+                document.getElementById('btn-auto').textContent = 'Auto Run';
+                updateStatus('Auto execution stopped.');
+                return;
+            }
+            
+            simulatorState.isRunning = true;
+            document.getElementById('btn-auto').textContent = 'Stop';
+            
+            simulatorState.autoInterval = setInterval(() => {
+                if (simulatorState.registers.pc >= simulatorState.program.length) {
+                    clearInterval(simulatorState.autoInterval);
+                    simulatorState.isRunning = false;
+                    document.getElementById('btn-auto').textContent = 'Auto Run';
+                    updateStatus('Program execution completed!');
+                    return;
+                }
+                
+                step();
+            }, 7000); // Adjust timing based on step execution
+        }
+
+        // Reset the simulator
+        function resetSimulator() {
+            clearInterval(simulatorState.autoInterval);
+            simulatorState.isRunning = false;
+            
+            // Reset registers
+            simulatorState.registers = {
+                pc: 0,
+                ir: null,
+                acc: 0,
+                mar: null,
+                mdr: null,
+                alu: null
+            };
+            
+            // Reset memory with new random values
+            simulatorState.memory = new Array(64).fill(null).map((_, i) => ({
+                address: i,
+                value: Math.floor(Math.random() * 100),
+                isInstruction: i < 8
+            }));
+            
+            simulatorState.currentStep = 0;
+            
+            // Update UI
+            renderMemory();
+            updateRegisters();
+            highlightActive();
+            updateStatus('Simulator reset. Ready to run again.');
+            document.getElementById('btn-auto').textContent = 'Auto Run';
+        }
+
+        // Load sample program
+        function loadSampleProgram() {
+            resetSimulator();
+            updateStatus('Sample program loaded. Ready to execute.');
+        }
+
+        // Event listeners
+        document.getElementById('btn-step').addEventListener('click', step);
+        document.getElementById('btn-auto').addEventListener('click', autoRun);
+        document.getElementById('btn-reset').addEventListener('click', resetSimulator);
+        document.getElementById('btn-load').addEventListener('click', loadSampleProgram);
+
+        // Initialize the simulator
+        window.onload = initSimulator;
+    </script>
+</body>
+</html>

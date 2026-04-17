@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROM Working Principles Simulator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #2a3a7c);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #4fc3f7;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            color: #bbdefb;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .simulation-area {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .rom-visualization {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            position: relative;
+            min-height: 500px;
+        }
+        
+        .control-panel {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+        }
+        
+        .panel h2 {
+            color: #4fc3f7;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* ROM Internal Structure */
+        .rom-chip {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            background: #0d47a1;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 3px solid #1565c0;
+            overflow: hidden;
+        }
+        
+        .address-decoder {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            height: 40px;
+            background: #1565c0;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            font-weight: bold;
+        }
+        
+        .memory-array {
+            position: absolute;
+            top: 60px;
+            left: 10px;
+            right: 10px;
+            bottom: 50px;
+            display: grid;
+            grid-template-columns: repeat(16, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 3px;
+            padding: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+        }
+        
+        .memory-cell {
+            background: #1976d2;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .memory-cell.active-row {
+            background: #f57c00;
+        }
+        
+        .memory-cell.active-bit {
+            background: #4caf50;
+            transform: scale(1.1);
+            box-shadow: 0 0 8px #4caf50;
+        }
+        
+        .output-buffer {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            height: 30px;
+            background: #1565c0;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            font-weight: bold;
+        }
+        
+        /* Buses */
+        .bus-container {
+            margin: 20px 0;
+        }
+        
+        .bus {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+        }
+        
+        .bus-label {
+            font-weight: bold;
+            margin-right: 15px;
+            color: #4fc3f7;
+            min-width: 120px;
+        }
+        
+        .bus-line {
+            flex: 1;
+            height: 4px;
+            background: #4fc3f7;
+            position: relative;
+            border-radius: 2px;
+        }
+        
+        .bus-line::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: -6px;
+            width: 0;
+            height: 0;
+            border-left: 12px solid #4fc3f7;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+        }
+        
+        .signal {
+            position: absolute;
+            background: #f57c00;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            top: -4px;
+            left: 0;
+            transition: left 1.5s ease;
+        }
+        
+        .data-bits {
+            display: flex;
+            gap: 5px;
+            margin-left: 15px;
+        }
+        
+        .data-bit {
+            width: 25px;
+            height: 25px;
+            background: #333;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-family: monospace;
+        }
+        
+        .data-bit.active {
+            background: #4caf50;
+        }
+        
+        /* Controls */
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        button {
+            padding: 12px 20px;
+            background: #4fc3f7;
+            color: #0d47a1;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        button:hover {
+            background: #29b6f6;
+            transform: translateY(-2px);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .address-input {
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            width: 100%;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+        
+        .step-indicator {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #4fc3f7;
+        }
+        
+        .step-title {
+            font-weight: bold;
+            color: #4fc3f7;
+            margin-bottom: 5px;
+        }
+        
+        .step-description {
+            line-height: 1.5;
+            color: #bbdefb;
+        }
+        
+        .data-display {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 1.1rem;
+        }
+        
+        .binary-display {
+            display: flex;
+            gap: 5px;
+            margin: 10px 0;
+            justify-content: center;
+        }
+        
+        .binary-bit {
+            width: 30px;
+            height: 30px;
+            background: #333;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .binary-bit.active {
+            background: #4caf50;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            color: #bbdefb;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .simulation-area {
+                grid-template-columns: 1fr;
+            }
+            
+            .memory-cell {
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>ROM Internal Working Principles Simulator</h1>
+            <p class="subtitle">This simulation shows the actual step-by-step process of how ROM retrieves data internally, including address decoding, word line activation, and data output.</p>
+        </header>
+        
+        <div class="simulation-area">
+            <div class="rom-visualization">
+                <h2>ROM Internal Structure</h2>
+                
+                <div class="rom-chip">
+                    <div class="address-decoder" id="addressDecoder">
+                        Address Decoder: Waiting for input...
+                    </div>
+                    
+                    <div class="memory-array" id="memoryArray">
+                        <!-- Memory cells will be generated by JavaScript -->
+                    </div>
+                    
+                    <div class="output-buffer" id="outputBuffer">
+                        Output Buffer: No data
+                    </div>
+                </div>
+                
+                <div class="bus-container">
+                    <div class="bus">
+                        <div class="bus-label">Address Bus (4-bit)</div>
+                        <div class="bus-line">
+                            <div class="signal" id="addressSignal"></div>
+                        </div>
+                        <div class="data-bits" id="addressBits">
+                            <div class="data-bit">0</div>
+                            <div class="data-bit">0</div>
+                            <div class="data-bit">0</div>
+                            <div class="data-bit">0</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bus">
+                        <div class="bus-label">Data Bus (8-bit)</div>
+                        <div class="bus-line">
+                            <div class="signal" id="dataSignal"></div>
+                        </div>
+                        <div class="data-bits" id="dataBits">
+                            <div class="data-bit">0</div>
+                            <div class="data-bit">0</div>
+                            <div class="data-bit">0</div>
+                            <div class="data-bit">0</div>
+                            <div class="data-bit">0</div>
+                            <div class="data-bit">0</div>
+                            <div class="data-bit">0</div>
+                            <div class="data-bit">0</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step-indicator">
+                    <div class="step-title" id="stepTitle">Step 1: Enter Address</div>
+                    <div class="step-description" id="stepDescription">Enter a 4-bit address (0-15) to read data from ROM</div>
+                </div>
+            </div>
+            
+            <div class="control-panel">
+                <h2>Control Panel</h2>
+                
+                <div class="data-display">
+                    <div>Current Address: <span id="currentAddress">--</span></div>
+                    <div>Binary Address: <span id="binaryAddress">--</span></div>
+                    <div>Retrieved Data: <span id="retrievedData">--</span></div>
+                    <div class="binary-display" id="binaryDisplay">
+                        <!-- Binary bits will be generated -->
+                    </div>
+                </div>
+                
+                <input type="number" class="address-input" id="addressInput" placeholder="Enter address (0-15)" min="0" max="15">
+                
+                <div class="controls">
+                    <button id="step1Btn">Step 1: Send Address</button>
+                    <button id="step2Btn" disabled>Step 2: Decode Address</button>
+                    <button id="step3Btn" disabled>Step 3: Activate Word Line</button>
+                    <button id="step4Btn" disabled>Step 4: Read Data Bits</button>
+                    <button id="step5Btn" disabled>Step 5: Output Data</button>
+                    <button id="resetBtn">Reset Simulation</button>
+                </div>
+                
+                <h2>ROM Working Principles</h2>
+                <div class="step-description">
+                    <p><strong>1. Address Input:</strong> CPU sends memory address via address bus</p>
+                    <p><strong>2. Address Decoding:</strong> ROM decoder converts address to select specific word line</p>
+                    <p><strong>3. Word Line Activation:</strong> Selected row activates all memory cells in that row</p>
+                    <p><strong>4. Bit Line Sensing:</strong> Sense amplifiers detect which bits are stored (1 or 0)</p>
+                    <p><strong>5. Data Output:</strong> Retrieved data sent via data bus to CPU</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>ROM Internal Working Simulator | Demonstrating actual data retrieval process step-by-step</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const addressInput = document.getElementById('addressInput');
+            const step1Btn = document.getElementById('step1Btn');
+            const step2Btn = document.getElementById('step2Btn');
+            const step3Btn = document.getElementById('step3Btn');
+            const step4Btn = document.getElementById('step4Btn');
+            const step5Btn = document.getElementById('step5Btn');
+            const resetBtn = document.getElementById('resetBtn');
+            
+            const addressDecoder = document.getElementById('addressDecoder');
+            const outputBuffer = document.getElementById('outputBuffer');
+            const memoryArray = document.getElementById('memoryArray');
+            
+            const addressSignal = document.getElementById('addressSignal');
+            const dataSignal = document.getElementById('dataSignal');
+            const addressBits = document.getElementById('addressBits');
+            const dataBits = document.getElementById('dataBits');
+            const binaryDisplay = document.getElementById('binaryDisplay');
+            
+            const stepTitle = document.getElementById('stepTitle');
+            const stepDescription = document.getElementById('stepDescription');
+            const currentAddress = document.getElementById('currentAddress');
+            const binaryAddress = document.getElementById('binaryAddress');
+            const retrievedData = document.getElementById('retrievedData');
+            
+            // ROM Data - 16 addresses, 8 bits each
+            const romData = [
+                [1,0,1,0,1,0,1,0], // Address 0: 170
+                [0,1,0,1,0,1,0,1], // Address 1: 85
+                [1,1,0,0,1,1,0,0], // Address 2: 204
+                [0,0,1,1,0,0,1,1], // Address 3: 51
+                [1,0,0,1,1,0,0,1], // Address 4: 153
+                [0,1,1,0,0,1,1,0], // Address 5: 102
+                [1,1,1,0,0,0,1,1], // Address 6: 227
+                [0,0,0,1,1,1,0,0], // Address 7: 28
+                [1,0,1,1,0,1,1,0], // Address 8: 182
+                [0,1,0,0,1,0,0,1], // Address 9: 73
+                [1,1,0,1,1,0,1,1], // Address 10: 219
+                [0,0,1,0,0,1,0,0], // Address 11: 36
+                [1,0,0,0,1,0,0,0], // Address 12: 136
+                [0,1,1,1,0,1,1,1], // Address 13: 119
+                [1,1,1,1,0,0,0,0], // Address 14: 240
+                [0,0,0,0,1,1,1,1]  // Address 15: 15
+            ];
+            
+            let currentStep = 0;
+            let currentAddr = null;
+            
+            // Initialize the memory array
+            function initializeMemoryArray() {
+                memoryArray.innerHTML = '';
+                binaryDisplay.innerHTML = '';
+                
+                // Create 16×8 memory grid (16 addresses, 8 bits each)
+                for (let row = 0; row < 16; row++) {
+                    for (let col = 0; col < 8; col++) {
+                        const cell = document.createElement('div');
+                        cell.className = 'memory-cell';
+                        cell.textContent = romData[row][col];
+                        cell.dataset.row = row;
+                        cell.dataset.col = col;
+                        memoryArray.appendChild(cell);
+                    }
+                }
+                
+                // Create binary display
+                for (let i = 0; i < 8; i++) {
+                    const bit = document.createElement('div');
+                    bit.className = 'binary-bit';
+                    bit.textContent = '0';
+                    binaryDisplay.appendChild(bit);
+                }
+            }
+            
+            // Step 1: Send Address
+            function step1SendAddress() {
+                const addr = parseInt(addressInput.value);
+                
+                if (isNaN(addr) || addr < 0 || addr > 15) {
+                    alert('Please enter a valid address between 0 and 15');
+                    return;
+                }
+                
+                currentAddr = addr;
+                currentStep = 1;
+                
+                // Update displays
+                currentAddress.textContent = addr;
+                binaryAddress.textContent = addr.toString(2).padStart(4, '0');
+                
+                // Animate address bus
+                addressSignal.style.left = '0';
+                addressSignal.style.backgroundColor = '#f57c00';
+                
+                // Update address bits
+                const binaryAddr = addr.toString(2).padStart(4, '0');
+                const bitElements = addressBits.querySelectorAll('.data-bit');
+                for (let i = 0; i < 4; i++) {
+                    bitElements[i].textContent = binaryAddr[i];
+                    bitElements[i].classList.add('active');
+                }
+                
+                setTimeout(() => {
+                    addressSignal.style.left = '100%';
+                }, 10);
+                
+                // Update step info
+                stepTitle.textContent = 'Step 1: Address Sent';
+                stepDescription.textContent = `Address ${addr} (binary: ${binaryAddr}) sent via address bus to ROM`;
+                
+                // Enable next step
+                step1Btn.disabled = true;
+                step2Btn.disabled = false;
+                addressInput.disabled = true;
+            }
+            
+            // Step 2: Decode Address
+            function step2DecodeAddress() {
+                currentStep = 2;
+                
+                // Show decoding in address decoder
+                addressDecoder.textContent = `Decoding: Address ${currentAddr} -> Row ${currentAddr}`;
+                addressDecoder.style.background = '#f57c00';
+                
+                // Update step info
+                stepTitle.textContent = 'Step 2: Address Decoded';
+                stepDescription.textContent = `Address decoder identifies row ${currentAddr} from the binary address`;
+                
+                // Enable next step
+                step2Btn.disabled = true;
+                step3Btn.disabled = false;
+            }
+            
+            // Step 3: Activate Word Line
+            function step3ActivateWordLine() {
+                currentStep = 3;
+                
+                // Highlight the entire row
+                const cells = memoryArray.querySelectorAll('.memory-cell');
+                cells.forEach(cell => {
+                    if (parseInt(cell.dataset.row) === currentAddr) {
+                        cell.classList.add('active-row');
+                    }
+                });
+                
+                // Update step info
+                stepTitle.textContent = 'Step 3: Word Line Activated';
+                stepDescription.textContent = `Row ${currentAddr} activated - all memory cells in this row are now accessible`;
+                
+                // Enable next step
+                step3Btn.disabled = true;
+                step4Btn.disabled = false;
+            }
+            
+            // Step 4: Read Data Bits
+            function step4ReadDataBits() {
+                currentStep = 4;
+                
+                // Highlight individual bits that are 1
+                const cells = memoryArray.querySelectorAll('.memory-cell');
+                const data = romData[currentAddr];
+                
+                cells.forEach(cell => {
+                    if (parseInt(cell.dataset.row) === currentAddr && 
+                        data[parseInt(cell.dataset.col)] === 1) {
+                        cell.classList.add('active-bit');
+                    }
+                });
+                
+                // Update binary display
+                const binaryBits = binaryDisplay.querySelectorAll('.binary-bit');
+                data.forEach((bit, index) => {
+                    binaryBits[index].textContent = bit;
+                    if (bit === 1) {
+                        binaryBits[index].classList.add('active');
+                    }
+                });
+                
+                // Update step info
+                stepTitle.textContent = 'Step 4: Data Bits Read';
+                stepDescription.textContent = `Sense amplifiers detect stored bits: ${data.join('')} (Decimal: ${binaryToDecimal(data)})`;
+                
+                // Enable next step
+                step4Btn.disabled = true;
+                step5Btn.disabled = false;
+            }
+            
+            // Step 5: Output Data
+            function step5OutputData() {
+                currentStep = 5;
+                
+                const data = romData[currentAddr];
+                const decimalValue = binaryToDecimal(data);
+                
+                // Update output buffer
+                outputBuffer.textContent = `Output: ${data.join('')} (Decimal: ${decimalValue})`;
+                outputBuffer.style.background = '#4caf50';
+                
+                // Update data bits on bus
+                const bitElements = dataBits.querySelectorAll('.data-bit');
+                data.forEach((bit, index) => {
+                    bitElements[index].textContent = bit;
+                    bitElements[index].classList.add('active');
+                });
+                
+                // Animate data bus
+                dataSignal.style.left = '100%';
+                dataSignal.style.backgroundColor = '#4caf50';
+                
+                setTimeout(() => {
+                    dataSignal.style.left = '0';
+                }, 10);
+                
+                // Update retrieved data display
+                retrievedData.textContent = decimalValue;
+                
+                // Update step info
+                stepTitle.textContent = 'Step 5: Data Output Complete';
+                stepDescription.textContent = `Data ${data.join('')} (Decimal: ${decimalValue}) sent to CPU via data bus`;
+                
+                step5Btn.disabled = true;
+            }
+            
+            // Reset simulation
+            function resetSimulation() {
+                currentStep = 0;
+                currentAddr = null;
+                
+                // Reset all elements
+                addressDecoder.textContent = 'Address Decoder: Waiting for input...';
+                addressDecoder.style.background = '#1565c0';
+                
+                outputBuffer.textContent = 'Output Buffer: No data';
+                outputBuffer.style.background = '#1565c0';
+                
+                // Clear memory array highlights
+                const cells = memoryArray.querySelectorAll('.memory-cell');
+                cells.forEach(cell => {
+                    cell.classList.remove('active-row', 'active-bit');
+                });
+                
+                // Clear bus animations
+                addressSignal.style.left = '0';
+                dataSignal.style.left = '0';
+                
+                // Clear data bits
+                const addressBitElements = addressBits.querySelectorAll('.data-bit');
+                addressBitElements.forEach(bit => {
+                    bit.textContent = '0';
+                    bit.classList.remove('active');
+                });
+                
+                const dataBitElements = dataBits.querySelectorAll('.data-bit');
+                dataBitElements.forEach(bit => {
+                    bit.textContent = '0';
+                    bit.classList.remove('active');
+                });
+                
+                const binaryBitElements = binaryDisplay.querySelectorAll('.binary-bit');
+                binaryBitElements.forEach(bit => {
+                    bit.textContent = '0';
+                    bit.classList.remove('active');
+                });
+                
+                // Reset displays
+                currentAddress.textContent = '--';
+                binaryAddress.textContent = '--';
+                retrievedData.textContent = '--';
+                
+                // Reset step info
+                stepTitle.textContent = 'Step 1: Enter Address';
+                stepDescription.textContent = 'Enter a 4-bit address (0-15) to read data from ROM';
+                
+                // Reset buttons
+                step1Btn.disabled = false;
+                step2Btn.disabled = true;
+                step3Btn.disabled = true;
+                step4Btn.disabled = true;
+                step5Btn.disabled = true;
+                addressInput.disabled = false;
+                addressInput.value = '';
+            }
+            
+            // Helper function to convert binary array to decimal
+            function binaryToDecimal(binaryArray) {
+                return parseInt(binaryArray.join(''), 2);
+            }
+            
+            // Event listeners
+            step1Btn.addEventListener('click', step1SendAddress);
+            step2Btn.addEventListener('click', step2DecodeAddress);
+            step3Btn.addEventListener('click', step3ActivateWordLine);
+            step4Btn.addEventListener('click', step4ReadDataBits);
+            step5Btn.addEventListener('click', step5OutputData);
+            resetBtn.addEventListener('click', resetSimulation);
+            
+            // Initialize the simulation
+            initializeMemoryArray();
+        });
+    </script>
+</body>
+</html>
